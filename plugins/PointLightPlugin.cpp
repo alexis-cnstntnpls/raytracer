@@ -10,10 +10,16 @@ std::unique_ptr<Plugin::LightPlugin> PointLightPlugin::create() {
 
 bool PointLightPlugin::configure(const libconfig::Setting &config) {
   try {
-    auto position = Parser::SceneParser::parsePoint3(config.lookup("position"));
+    if (config.exists("intensity")) {
+      double intensity = config.lookup("intensity");
+      this->setIntensity(intensity);
+    }
 
-    if (position) {
-      this->setPosition(*position);
+    if (config.exists("color")) {
+      auto color = Parser::SceneParser::parseColor(config);
+      if (color) {
+        this->setColor(*color);
+      }
     }
   } catch (const libconfig::SettingNotFoundException &) {
   }
