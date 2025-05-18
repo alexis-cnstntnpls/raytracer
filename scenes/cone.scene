@@ -4,153 +4,47 @@ camera:
         width = 1920;
         height = 1080;
     };
-    position =
-    {
-        x = 0.0;
-        y = -100.0;
-        z = 20.0;
-    };
-    rotation =
-    {
-        x = 0.0;
-        y = 0.0;
-        z = 0.0;
-    };
+    position = [0.0, -100.0, 20.0];
+    rotation = [0.0, 0.0, 0.0];
     fov = 72.0; # In degree
 };
 
-primitives:
-{
-    spheres = (
+primitives = (
+    {
+        type = "Cone";
+        id = "cone1";
+        axis = "Z"
+        position = [0.0, 0.0, -10.0];
+        height = 60.0;
+        radius = 30.0;
+        material =
         {
-            id = "sphere1";
-            position =
-            {
-                x = 60.0;
-                y = 5.0;
-                z = 40.0;
-            };
-            radius = 25.0;
-            material = "FlatMaterial";
-            ambientCoefficient = 0.5;
-            diffuseCoefficient = 0.5;
-            color =
-            {
-                r = 255;
-                g = 64;
-                b = 64;
-            };
-        },
-        {
-            id = "sphere2";
-            material = "MirrorMaterial";
-            ambientCoefficient = 0.5;
-            diffuseCoefficient = 0.5;
-            position =
-            {
-                x = -40.0;
-                y = 20.0;
-                z = -10.0;
-            };
-            radius = 35.0;
-            color =
-            {
-                r = 64;
-                g = 255;
-                b = 64;
-            };
+            type = "FlatMaterial";
+            ambientCoefficient = 0.6;
+            diffuseCoefficient = 0.6;
+            color = [127, 0, 255];
         }
-    );
-    planes = (
-        {
-            id = "plane1";
-            axis = "Z";
-            position = -20.0;
-            material = "MirrorMaterial";
-            ambientCoefficient = 0.5;
-            diffuseCoefficient = 0.5;
-            color =
-            {
-                r = 64;
-                g = 64;
-                b = 255;
-            };
-        }
-    );
-    cylinders = (
-        {
-            id = "cylinder";
-            axis = "Z"
-            position =
-            {
-                x = 90.0;
-                y = 5.0;
-                z = 0.0;
-            };
-            height = 10.0
-            radius = 25.0;
-            color =
-            {
-                r = 0;
-                g = 0;
-                b = 255;
-            };
-        }
-    );
-    cones = (
-            {
-                id = "cone1";
-                axis = "Z";
-                position =
-                {
-                    x = 0.0;
-                    y = 0.0;
-                    z = 0.0;
-                };
-                rotation =
-                {
-                    x = 0.0;
-                    y = 0.0;
-                    z = 0.0;
-                };
-                height = 60.0;
-                radius = 30.0;
-                material = "MirrorMaterial";
-                ambientCoefficient = 0.6;
-                diffuseCoefficient = 0.6;
-                color =
-                {
-                    r = 127;
-                    g = 0;
-                    b = 255;
-                };
-            }
-    );
-};
+    }
+)
 
-lights:
-{
-    ambient =
+lights = (
     {
-        intensity = 0.4; # Multiplier of ambient light
-    };
-    diffuse =
+        type = "AmbientLight";
+        id = "ambient1";
+        intensity  = 0.4;
+    },
     {
-        intensity = 0.6; # Multiplier of diffuse light
-    };
-    points = (
-        {
-            id = "light1";
-            position =
-            {
-                x = 400.0;
-                y = 100.0;
-                z = 500.0;
-            };
-        }
-    );
-    directional = ();
-};
+        type = "DiffuseLight";
+        id = "diffuse1";
+        intensity = 0.6;
+    },
+    {
+        type = "PointLight";
+        id = "light1";
+        position = [400.0, 100.0, 500.0];
+    }
+)
+
 childScenes:
 {
 }

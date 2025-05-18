@@ -12,33 +12,17 @@ camera:
 primitives = (
     {
         type = "Pyramid";
-        id = "sphere2";
-        position = [-40.0, 20.0, -10.0];
+        id = "pyramid1";
+        position = [0.0, 0.0, 0.0];
         baseSize = 50.0;
-        height = 200.0;
+        height = 50.0;
         upAxis = "Z";
         material =
         {
             type = "FlatMaterial";
+            ambientCoefficient = 0.5;
+            diffuseCoefficient = 0.5;
             color = [0, 255, 0];
-            ambientCoefficient = 0.5;
-            diffuseCoefficient = 0.5;
-        }
-    },
-    {
-        type = "Plane";
-        id = "plane1";
-        axis = "Z";
-        position = -20.0;
-        material =
-        {
-            type = "FlatMaterial";
-            ambientCoefficient = 0.5;
-            diffuseCoefficient = 0.5;
-            reflectionCoefficient = 1.0;
-            refractionCoefficient = 1.0;
-            refractionIndex = 1.52;
-            color = [64, 64, 255];
         }
     }
 )
