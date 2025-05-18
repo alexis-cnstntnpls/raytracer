@@ -108,15 +108,10 @@ FractalPlugin::intersect(const Core::Ray &ray) const noexcept {
                                              pos.m_components[1],
                                              pos.m_components[2] - delta}));
 
-        double normalLength =
-            sqrt(normal.m_components[0] * normal.m_components[0] +
-                 normal.m_components[1] * normal.m_components[1] +
-                 normal.m_components[2] * normal.m_components[2]);
+        double normalLength = normal.length();
 
         if (normalLength > 0) {
-          normal.m_components[0] /= normalLength;
-          normal.m_components[1] /= normalLength;
-          normal.m_components[2] /= normalLength;
+          normal = normal / normalLength;
         } else {
           normal.m_components[0] = 0;
           normal.m_components[1] = 0;
