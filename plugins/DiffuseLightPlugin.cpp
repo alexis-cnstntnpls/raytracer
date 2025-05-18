@@ -10,10 +10,16 @@ std::unique_ptr<Plugin::LightPlugin> DiffuseLightPlugin::create() {
 
 bool DiffuseLightPlugin::configure(const libconfig::Setting &config) {
   try {
-    double intensity = config.lookup("intensity");
-
-    if (intensity) {
+    if (config.exists("intensity")) {
+      double intensity = config.lookup("intensity");
       this->setIntensity(intensity);
+    }
+
+    if (config.exists("color")) {
+      auto color = Parser::SceneParser::parseColor(config);
+      if (color) {
+        this->setColor(*color);
+      }
     }
   } catch (const libconfig::SettingNotFoundException &) {
   }
