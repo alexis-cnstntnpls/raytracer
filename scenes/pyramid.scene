@@ -1,0 +1,66 @@
+camera:
+{
+    resolution = {
+        width = 1920;
+        height = 1080;
+    };
+    position = [0.0, -100.0, 20.0];
+    rotation = [0.0, 0.0, 0.0];
+    fov = 72.0; # In degree
+};
+
+primitives = (
+    {
+        type = "Pyramid";
+        id = "sphere2";
+        position = [-40.0, 20.0, -10.0];
+        baseSize = 50.0;
+        height = 200.0;
+        upAxis = "Z";
+        material =
+        {
+            type = "FlatMaterial";
+            color = [0, 255, 0];
+            ambientCoefficient = 0.5;
+            diffuseCoefficient = 0.5;
+        }
+    },
+    {
+        type = "Plane";
+        id = "plane1";
+        axis = "Z";
+        position = -20.0;
+        material =
+        {
+            type = "FlatMaterial";
+            ambientCoefficient = 0.5;
+            diffuseCoefficient = 0.5;
+            reflectionCoefficient = 1.0;
+            refractionCoefficient = 1.0;
+            refractionIndex = 1.52;
+            color = [64, 64, 255];
+        }
+    }
+)
+
+lights = (
+    {
+        type = "AmbientLight";
+        id = "ambient1";
+        intensity  = 0.4;
+    },
+    {
+        type = "DiffuseLight";
+        id = "diffuse1";
+        intensity = 0.6;
+    },
+    {
+        type = "PointLight";
+        id = "light1";
+        position = [400.0, 100.0, 500.0];
+    }
+)
+
+childScenes:
+{
+}
