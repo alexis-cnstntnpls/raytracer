@@ -19,6 +19,12 @@ bool CylinderPlugin::configure(const libconfig::Setting &config) {
 
       Parser::SceneParser::applyTransformations(config, this);
     }
+    if (config.exists("unlimited")) {
+      m_isUnlimitedHeight = config.lookup("unlimited");
+      if (m_isUnlimitedHeight) {
+        m_height = std::numeric_limits<double>::infinity();
+      }
+    }
   } catch (const libconfig::SettingNotFoundException &) {
   }
   return true;

@@ -1,0 +1,108 @@
+camera:
+{
+    resolution = {
+        width = 1920;
+        height = 1080;
+    };
+    position = [0.0, -100.0, 20.0];
+    rotation = [0.0, 0.0, 0.0];
+    fov = 72.0; # In degree
+};
+
+primitives = (
+    {
+        type = "Sphere";
+        id = "sphere1";
+        position = [0.0, 20.0, 0.0];
+        radius = 20.0;
+        material =
+        {
+            type = "FlatMaterial";
+            ambientCoefficient = 0.5;
+            diffuseCoefficient = 0.5;
+            color = [64, 255, 64];
+        }
+    },
+    {
+        type = "Sphere";
+        id = "sphere2";
+        position = [-50.0, 20.0, 0.0];
+        radius = 20.0;
+        material =
+        {
+            type = "MirrorMaterial";
+            ambientCoefficient = 0.5;
+            diffuseCoefficient = 0.5;
+            reflectionCoefficient = 1.0;
+            refractionCoefficient = 1.0;
+            refractionIndex = 1.52;
+            color = [255, 100, 255];
+        }
+    },
+    {
+        type = "Sphere";
+        id = "sphere3";
+        position = [50.0, 20.0, 0.0];
+        radius = 20.0;
+        material =
+        {
+            type = "SteelMaterial";
+            ambientCoefficient = 0.5;
+            diffuseCoefficient = 0.5;
+            reflectionCoefficient = 1.0;
+            refractionCoefficient = 1.0;
+            refractionIndex = 1.52;
+            color = [64, 64, 64];
+        }
+    },
+    {
+        type = "Sphere";
+        id = "sphere4";
+        position = [-100.0, 20.0, 0.0];
+        radius = 20.0;
+        material =
+        {
+            type = "ChessBoardMaterial";
+            ambientCoefficient = 0.5;
+            diffuseCoefficient = 0.5;
+            color1 = [0, 0, 0];
+            color2 = [255, 255, 255];
+            squareSize = 2.0;
+        }
+    },
+    {
+        type = "Plane";
+        id = "plane1";
+        axis = "Z";
+        position = -20.0;
+        material =
+        {
+            type = "FlatMaterial";
+            ambientCoefficient = 0.5;
+            diffuseCoefficient = 0.5;
+            color = [64, 64, 255];
+        }
+    }
+)
+
+lights = (
+    {
+        type = "AmbientLight";
+        id = "ambient1";
+        intensity  = 0.4;
+    },
+    {
+        type = "DiffuseLight";
+        id = "diffuse1";
+        intensity = 0.6;
+    },
+    {
+        type = "PointLight";
+        id = "light1";
+        position = [400.0, 100.0, 500.0];
+    }
+)
+
+childScenes:
+{
+}
