@@ -83,7 +83,10 @@
  {
    try {
      auto pOpt = Parser::SceneParser::parsePoint3(cfg.lookup("position"));
-     if (!pOpt) { std::cerr << "[MobiusStrip] position invalide\n"; return false; }
+     if (!pOpt) {
+      std::cerr << "[MobiusStrip] position invalide\n";
+      return false;
+    }
      m_center = *pOpt;
  
      m_radius = cfg.lookup("radius");
@@ -96,6 +99,11 @@
       m_axis = {0.0, 1.0, 0.0};
      else
       m_axis = {0.0, 0.0, 1.0};
+
+      m_segU = cfg.exists("segmentsU") ? cfg.lookup("segmentsU") : 128;
+      m_segV = cfg.exists("segmentsV") ? cfg.lookup("segmentsV") : 16;
+      m_segU = std::max(4u, static_cast<unsigned>(m_segU));
+      m_segV = std::max(2u, static_cast<unsigned>(m_segV));
    }
    catch (const libconfig::SettingException &e) {
      std::cerr << "[MobiusStrip] " << e.what() << '\n';
@@ -108,7 +116,7 @@
  }
 
 
-void MobiusStripPlugin::buildMesh(unsigned segU, unsigned segV)
+void MobiusStripPlugin::buildMesh()
 {
   m_tris.clear();
 
@@ -128,8 +136,8 @@ void MobiusStripPlugin::buildMesh(unsigned segU, unsigned segV)
     return C + n * (v * c2) + up * (v * s2);
   };
 
-  double du = 2*M_PI / segU;
-  double dv = 2*m_halfWidth / segV;
+  double du = 2*M_PI / m_segU;
+  double dv = 2*m_halfWidth / m_segV;
 
   Point<3> bbMin{ std::numeric_limits<double>::max(),
                   std::numeric_limits<double>::max(),
@@ -138,9 +146,9 @@ void MobiusStripPlugin::buildMesh(unsigned segU, unsigned segV)
                   -bbMin.m_components[1],
                   -bbMin.m_components[2] };
 
-  for (unsigned iu = 0; iu < segU; ++iu) {
+  for (unsigned iu = 0; iu < m_segU; ++iu) {
     double u0 = iu * du, u1 = (iu + 1) * du;
-    for (unsigned iv = 0; iv < segV; ++iv) {
+    for (unsigned iv = 0; iv < m_segV; ++iv) {
       double v0 = -m_halfWidth + iv * dv;
       double v1 = v0 + dv;
 

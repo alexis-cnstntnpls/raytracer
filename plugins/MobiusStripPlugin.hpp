@@ -73,12 +73,14 @@ private:
   Math::Vector<3> m_axis{0.0, 1.0, 0.0};
   double m_radius{40.0};
   double m_halfWidth{8.0};
+  double m_segU{128.0};
+  double m_segV{16.0};
 
   std::vector<Triangle> m_tris;
   std::vector<Node> m_bvh;
   Core::BoundingBox m_bbox;
 
-  void buildMesh(unsigned segU = 128, unsigned segV = 24);
+  void buildMesh();
   void buildBVH();
   int buildBVHRecursive(int first, int count);
   std::optional<std::pair<double, Math::Vector<3>>> intersectNode(int idx, const Core::Ray &ray) const noexcept;
