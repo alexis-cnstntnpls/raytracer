@@ -100,8 +100,10 @@
      else
       m_axis = {0.0, 0.0, 1.0};
 
-      m_segU = cfg.exists("segmentsU") ? cfg.lookup("segmentsU") : 128;
-      m_segV = cfg.exists("segmentsV") ? cfg.lookup("segmentsV") : 16;
+      if (cfg.exists("segmentsU"))
+        m_segU = cfg.lookup("segmentsU");
+      if (cfg.exists("segmentsV"))
+        m_segV = cfg.lookup("segmentsV");
       m_segU = std::max(4u, static_cast<unsigned>(m_segU));
       m_segV = std::max(2u, static_cast<unsigned>(m_segV));
    }
