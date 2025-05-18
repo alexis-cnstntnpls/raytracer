@@ -15,8 +15,8 @@
  
  namespace {
  
- inline bool hitAABB(const BoundingBox &box, const Ray &ray,
-                     double &tmin, double &tmax) noexcept
+ inline bool hitAABB(const BoundingBox &box, const Ray &ray, double &tmin,
+  double &tmax) noexcept
  {
    tmin = 0.0;
    tmax = ray.getMaxDistance();
@@ -42,15 +42,13 @@
    return true;
  }
  
- inline std::optional<std::pair<double, Vector<3>>>
- intersectTri(const Ray &ray,
-              const Point<3> &v0, const Point<3> &v1, const Point<3> &v2,
-              const Vector<3> &nCached) noexcept
+ inline std::optional<std::pair<double, Vector<3>>> intersectTri(const Ray &ray, const Point<3> &v0,
+  const Point<3> &v1, const Point<3> &v2, const Vector<3> &nCached) noexcept
  {
    const double eps = 1e-6;
    Vector<3> e1 = v1 - v0;
    Vector<3> e2 = v2 - v0;
-   Vector<3> p  = ray.getDirection().cross(e2);
+   Vector<3> p = ray.getDirection().cross(e2);
    double det = e1.dot(p);
    if (std::fabs(det) < eps) return std::nullopt;
    double invDet = 1.0 / det;
@@ -77,7 +75,7 @@
  
  
  std::unique_ptr<Plugin::PrimitivePlugin> MobiusStripPlugin::create() {
-   return std::make_unique<MobiusStripPlugin>();
+  return std::make_unique<MobiusStripPlugin>();
  }
  
  
@@ -88,13 +86,16 @@
      if (!pOpt) { std::cerr << "[MobiusStrip] position invalide\n"; return false; }
      m_center = *pOpt;
  
-     m_radius    = cfg.lookup("radius");
+     m_radius = cfg.lookup("radius");
      m_halfWidth = cfg.lookup("halfWidth");
  
      std::string ax = cfg.lookup("axis");
-     if      (ax == "X") m_axis = {1.0, 0.0, 0.0};
-     else if (ax == "Y") m_axis = {0.0, 1.0, 0.0};
-     else                m_axis = {0.0, 0.0, 1.0};
+     if (ax == "X")
+      m_axis = {1.0, 0.0, 0.0};
+     else if (ax == "Y")
+      m_axis = {0.0, 1.0, 0.0};
+     else
+      m_axis = {0.0, 0.0, 1.0};
    }
    catch (const libconfig::SettingException &e) {
      std::cerr << "[MobiusStrip] " << e.what() << '\n';
@@ -105,63 +106,63 @@
    buildBVH();
    return true;
  }
- 
- 
- void MobiusStripPlugin::buildMesh(unsigned segU, unsigned segV)
- {
-   m_tris.clear();
- 
-   Vector<3> up = m_axis; up.normalize();
-   Vector<3> tx = std::fabs(up.m_components[0]) < 0.9 ? Vector<3>{1.0, 0.0, 0.0}
-                                                      : Vector<3>{0.0, 1.0, 0.0};
-   tx = (up.cross(tx)).normalize();
-   Vector<3> ty = up.cross(tx);
- 
-   auto param = [&](double u, double v) -> Point<3> {
-     double cu = std::cos(u), su = std::sin(u);
-     double ch = std::cos(u * 0.5), sh = std::sin(u * 0.5);
-     Point<3> C = m_center + tx * (m_radius * cu) + ty * (m_radius * su);
-     Vector<3> lat = (tx * ch + ty * sh).normalize();
-     return C + lat * v;
-   };
- 
-   double du = 2 * M_PI / segU;
-   double dv = 2 * m_halfWidth / segV;
- 
-   Point<3> bbMin{  std::numeric_limits<double>::max(),
-                    std::numeric_limits<double>::max(),
-                    std::numeric_limits<double>::max() };
-   Point<3> bbMax{ -bbMin.m_components[0],
-                   -bbMin.m_components[1],
-                   -bbMin.m_components[2] };
- 
-   for (unsigned iu = 0; iu < segU; ++iu) {
-     double u0 = iu * du, u1 = (iu + 1) * du;
-     for (unsigned iv = 0; iv < segV; ++iv) {
-       double v0 = -m_halfWidth + iv * dv;
-       double v1 = v0 + dv;
- 
-       Point<3> p00 = param(u0, v0);
-       Point<3> p10 = param(u1, v0);
-       Point<3> p01 = param(u0, v1);
-       Point<3> p11 = param(u1, v1);
- 
-       Vector<3> n0 = (p10 - p00).cross(p01 - p00).normalize();
-       m_tris.push_back({p00, p10, p01, n0});
-       Vector<3> n1 = (p11 - p10).cross(p01 - p10).normalize();
-       m_tris.push_back({p10, p11, p01, n1});
- 
-       for (const auto &p : {p00, p10, p01, p11}) {
-         for (int k = 0; k < 3; ++k) {
-           bbMin.m_components[k] = std::min(bbMin.m_components[k], p.m_components[k]);
-           bbMax.m_components[k] = std::max(bbMax.m_components[k], p.m_components[k]);
-         }
-       }
-     }
-   }
-   m_bbox = BoundingBox(bbMin, bbMax);
- }
- 
+
+
+void MobiusStripPlugin::buildMesh(unsigned segU, unsigned segV)
+{
+  m_tris.clear();
+
+  Vector<3> up = m_axis; up.normalize();
+  Vector<3> tmp = std::fabs(up.m_components[0]) < 0.9 ? Vector<3>{1.0,0.0,0.0} : Vector<3>{0.0,1.0,0.0};
+  Vector<3> a = (up.cross(tmp)).normalize();
+  Vector<3> b = up.cross(a);
+
+  auto param = [&](double u, double v) -> Point<3>
+  {
+    double cu = std::cos(u), su = std::sin(u);
+    double c2 = std::cos(u*0.5), s2 = std::sin(u*0.5);
+
+    Vector<3> n = a*cu + b*su;
+    Point<3> C = m_center + n * m_radius;
+
+    return C + n * (v * c2) + up * (v * s2);
+  };
+
+  double du = 2*M_PI / segU;
+  double dv = 2*m_halfWidth / segV;
+
+  Point<3> bbMin{ std::numeric_limits<double>::max(),
+                  std::numeric_limits<double>::max(),
+                  std::numeric_limits<double>::max() };
+  Point<3> bbMax{ -bbMin.m_components[0],
+                  -bbMin.m_components[1],
+                  -bbMin.m_components[2] };
+
+  for (unsigned iu = 0; iu < segU; ++iu) {
+    double u0 = iu * du, u1 = (iu + 1) * du;
+    for (unsigned iv = 0; iv < segV; ++iv) {
+      double v0 = -m_halfWidth + iv * dv;
+      double v1 = v0 + dv;
+
+      Point<3> p00 = param(u0, v0);
+      Point<3> p10 = param(u1, v0);
+      Point<3> p01 = param(u0, v1);
+      Point<3> p11 = param(u1, v1);
+
+      Vector<3> n0 = (p10 - p00).cross(p01 - p00).normalize();
+      m_tris.push_back({p00, p10, p01, n0});
+      Vector<3> n1 = (p11 - p10).cross(p01 - p10).normalize();
+      m_tris.push_back({p10, p11, p01, n1});
+
+      for (const auto &p : {p00, p10, p01, p11})
+        for (int k = 0; k < 3; ++k) {
+          bbMin.m_components[k] = std::min(bbMin.m_components[k], p.m_components[k]);
+          bbMax.m_components[k] = std::max(bbMax.m_components[k], p.m_components[k]);
+        }
+    }
+  }
+  m_bbox = BoundingBox(bbMin, bbMax);
+}
  
  void MobiusStripPlugin::buildBVH()
  {
@@ -178,9 +179,9 @@
    node.first = first;
    node.count = count;
  
-   Point<3> mn{  std::numeric_limits<double>::max(),
-                 std::numeric_limits<double>::max(),
-                 std::numeric_limits<double>::max() };
+   Point<3> mn{ std::numeric_limits<double>::max(),
+                std::numeric_limits<double>::max(),
+                std::numeric_limits<double>::max() };
    Point<3> mx{ -mn.m_components[0], -mn.m_components[1], -mn.m_components[2] };
    for (int i = 0; i < count; ++i) {
      const auto &t = m_tris[first + i];
@@ -209,7 +210,7 @@
                       return ca < cb;
                     });
  
-   node.left  = buildBVHRecursive(first, mid - first);
+   node.left = buildBVHRecursive(first, mid - first);
    node.right = buildBVHRecursive(mid, first + count - mid);
    node.count = 0;
    return idx;
@@ -223,7 +224,7 @@
    double tmin, tmax;
    if (!hitAABB(node.bbox, ray, tmin, tmax)) return std::nullopt;
  
-   if (node.count > 0) {               
+   if (node.count > 0) {
      double bestT = std::numeric_limits<double>::infinity();
      Vector<3> bestN;
      for (int i = 0; i < node.count; ++i) {
@@ -236,7 +237,7 @@
      return std::nullopt;
    }
  
-   auto L = intersectNode(node.left,  ray);
+   auto L = intersectNode(node.left, ray);
    auto R = intersectNode(node.right, ray);
    if (L && R) return (L->first < R->first) ? L : R;
    return L ? L : R;
@@ -249,9 +250,9 @@
    auto res = intersectNode(0, ray);
    if (!res) return std::nullopt;
  
-   double   t = res->first;
+   double t = res->first;
    Vector<3> n = res->second;
-   Point<3>  hit = ray.getOrigin() + ray.getDirection() * t;
+   Point<3> hit = ray.getOrigin() + ray.getDirection() * t;
  
    bool inside = false;
    if (n.dot(ray.getDirection()) > 0.0) { n *= -1.0; inside = true; }
@@ -259,8 +260,7 @@
    
    std::shared_ptr<Core::IMaterial> mat = getMaterial();
  
-   return Intersection(hit, n, mat, t, inside,
-                       Raytracer::Math::Point<2>{0.0, 0.0});
+   return Intersection(hit, n, mat, t, inside, Raytracer::Math::Point<2>{0.0, 0.0});
  }
  
   Core::BoundingBox MobiusStripPlugin::getBoundingBox() const noexcept {
@@ -272,7 +272,7 @@
  
  extern "C" {
  Raytracer::Plugin::IPlugin *createPlugin() {
-   return new Raytracer::Plugins::MobiusStripPlugin();
+  return new Raytracer::Plugins::MobiusStripPlugin();
  }
  void destroyPlugin(Raytracer::Plugin::IPlugin *plugin) { delete plugin; }
  }
