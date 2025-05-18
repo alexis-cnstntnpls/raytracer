@@ -84,6 +84,7 @@ private:
   Math::Point<3> m_position{0.0, 0.0, 0.0};
   double m_radius{1.0};
   double m_height{1.0};
+  bool m_isUnlimitedHeight{false};
 };
 
 } // namespace Raytracer::Plugins
