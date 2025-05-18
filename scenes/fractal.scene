@@ -1,0 +1,58 @@
+camera:
+{
+    resolution = {
+        width = 1920;
+        height = 1080;
+    };
+    position = [0.0, 0.0, 0.0];
+    rotation = [0.0, 0.0, 0.0];
+    fov = 60.0;
+};
+
+primitives = (
+    {
+        type = "Fractal";
+        id = "fractal1";
+        position = [0.0, 30.0, 0.0];
+        iterations = 5;
+        bailout = 4.0;
+        power = 8.0;
+        scale = [1.0, 1.0, 1.0];
+        material =
+        {
+            type = "FlatMaterial";
+            ambientCoefficient = 0.3;
+            diffuseCoefficient = 0.8;
+            color = [255, 64, 64];
+        }
+    }
+)
+
+lights = (
+    {
+        type = "AmbientLight";
+        id = "ambient1";
+        intensity = 0.3;
+    },
+    {
+        type = "DiffuseLight";
+        id = "diffuse1";
+        intensity = 0.7;
+    },
+    {
+        type = "PointLight";
+        id = "light1";
+        position = [50.0, -50.0, 100.0];
+        intensity = 1.0;
+    },
+    {
+        type = "PointLight";
+        id = "light2";
+        position = [-50.0, 20.0, 30.0];
+        intensity = 0.4;
+    }
+)
+
+childScenes:
+{
+}
