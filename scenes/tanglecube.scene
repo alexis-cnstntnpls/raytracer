@@ -13,7 +13,7 @@ primitives = (
 {
         type = "Tanglecube";
         id = "tanglecube1";
-        position = [-40.0, 20.0, 20.0];
+        position = [0.0, 60.0, 0.0];
         scale = [20.0, 20.0, 20.0];
         constant = 11.8;
         epsilon = 0.00001;
@@ -24,26 +24,7 @@ primitives = (
             type = "FlatMaterial";
             ambientCoefficient = 0.5;
             diffuseCoefficient = 0.5;
-            reflectionCoefficient = 1.0;
-            refractionCoefficient = 1.0;
-            refractionIndex = 1.52;
             color = [64, 255, 64];
-        }
-    },
-    {
-        type = "Plane";
-        id = "plane1";
-        axis = "Z";
-        position = -20.0;
-        material =
-        {
-            type = "FlatMaterial";
-            ambientCoefficient = 0.5;
-            diffuseCoefficient = 0.5;
-            reflectionCoefficient = 1.0;
-            refractionCoefficient = 1.0;
-            refractionIndex = 1.52;
-            color = [64, 64, 255];
         }
     }
 )
