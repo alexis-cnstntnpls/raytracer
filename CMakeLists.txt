@@ -122,3 +122,4 @@ add_raytracer_plugin(chessboard_material_plugin plugins/ChessBoardMaterialPlugin
 add_raytracer_plugin(object_plugin plugins/ObjectPlugin.cpp)
 add_raytracer_plugin(mobiusstrip_plugin plugins/MobiusStripPlugin.cpp)
 add_raytracer_plugin(pyramid_plugin plugins/PyramidPlugin.cpp)
+add_raytracer_plugin(tanglecube_plugin plugins/TanglecubePlugin.cpp)
