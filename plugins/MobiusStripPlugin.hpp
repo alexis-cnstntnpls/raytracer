@@ -73,8 +73,8 @@ private:
   Math::Vector<3> m_axis{0.0, 1.0, 0.0};
   double m_radius{40.0};
   double m_halfWidth{8.0};
-  double m_segU{128.0};
-  double m_segV{16.0};
+  double m_segU{512.0};
+  double m_segV{64.0};
 
   std::vector<Triangle> m_tris;
   std::vector<Node> m_bvh;
