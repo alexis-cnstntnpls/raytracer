@@ -16,7 +16,7 @@ bool AmbientLightPlugin::configure(const libconfig::Setting &config) {
     }
 
     if (config.exists("color")) {
-      auto color = Parser::SceneParser::parseColor(config);
+      auto color = Parser::SceneParser::parseColor(config, "color");
       if (color) {
         this->setColor(*color);
       }
