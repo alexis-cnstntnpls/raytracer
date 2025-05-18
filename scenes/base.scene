@@ -46,13 +46,11 @@ primitives = (
         position = -20.0;
         material =
         {
-            type = "FlatMaterial";
+            type = "RainbowMaterial";
             ambientCoefficient = 0.5;
             diffuseCoefficient = 0.5;
-            reflectionCoefficient = 1.0;
-            refractionCoefficient = 1.0;
-            refractionIndex = 1.52;
-            color = [64, 64, 255];
+            origin = [0., 0., -20.];
+            color = [255,255,255]
         }
     },
     {
